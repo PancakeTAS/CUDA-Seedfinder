@@ -2,6 +2,7 @@
 
 __device__ uint64_t locate_structure(uint64_t structureSeed, uint32_t position, uint32_t spacedRegionX, uint32_t spacedRegionZ, uint32_t offset, uint64_t salt, uint8_t edge_case) {
     uint64_t seed;
+
     scramble(&seed, 
         // First calculate the position seed and let 'setSeed' scramble it afterwards.
         (position + structureSeed + salt)
@@ -29,6 +30,12 @@ __device__ uint64_t locate_structure(uint64_t structureSeed, uint32_t position, 
             scrambleWeakSeed(&seed, structureSeed, x, z);
             nextInt(&seed, 32);
             if (nextInt(&seed, 5) != 0)
+                return 0xFFFFFFFFFFFFFFFF;
+            break;
+        // Third Edge Case: 
+        //          Fortress have another check to pass
+        case 3:
+            if (nextInt(&seed, 5) >= 2)
                 return 0xFFFFFFFFFFFFFFFF;
             break;
         default:

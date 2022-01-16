@@ -12,10 +12,10 @@ int main() {
     condition1.chunkXMax = 4;
     condition1.chunkZMax = 4;
     condition1.relativeTo = 0;
-    condition1.offset = 24;
-    condition1.spacing = 32;
-    condition1.salt = 165745296L;
-    condition1.edge_case = 2;
+    condition1.offset = 23L;
+    condition1.spacing = 27L;
+    condition1.salt = 30084232L;
+    condition1.edge_case = 3;
 
     conditions[0] = condition1;
 
