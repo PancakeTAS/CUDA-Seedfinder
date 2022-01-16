@@ -18,9 +18,17 @@ __device__ uint64_t locate_structure(uint64_t structureSeed, uint32_t position, 
     // Lastly calculate all edge cases
     switch (edge_case) {
         // First Edge Case: 
-        //           Bastion Remnant have another check to pass
+        //          Bastion Remnant have another check to pass
         case 1:
             if (nextInt(&seed, 5) < 2)
+                return 0xFFFFFFFFFFFFFFFF;
+            break;
+        // Second Edge Case:
+        //          Pillager Outpost have another check to pass involving a weaker seed
+        case 2:
+            scrambleWeakSeed(&seed, structureSeed, x, z);
+            nextInt(&seed, 32);
+            if (nextInt(&seed, 5) != 0)
                 return 0xFFFFFFFFFFFFFFFF;
             break;
         default:

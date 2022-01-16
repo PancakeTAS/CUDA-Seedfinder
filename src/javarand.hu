@@ -6,6 +6,9 @@
 // Scrambles the seed given
 __device__ void scramble(uint64_t* seed, uint64_t new_seed);
 
+// Scrambles a new seed hashed from a position on a world
+__device__ void scrambleWeakSeed(uint64_t* seed, uint64_t worldseed, uint32_t chunkX, uint32_t chunkZ);
+
 // Generates a given amount of bits with a random seed
 __device__ uint32_t next(uint64_t* seed, uint32_t bits);
 

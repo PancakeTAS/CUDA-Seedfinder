@@ -8,6 +8,13 @@ __device__ void scramble(uint64_t* seed, uint64_t new_seed) {
     *seed = new_seed ^ MULTIPLIER;
 }
 
+// Updates the seed with a weaker hash of the world seed
+__device__ void scrambleWeakSeed(uint64_t* seed, uint64_t worldseed, uint32_t chunkX, uint32_t chunkZ) {
+    uint32_t sX = chunkX >> 4;
+    uint32_t sZ = chunkZ >> 4;
+    *seed = ((sX ^ sZ << 4L) ^ worldseed) ^ MULTIPLIER;
+}
+
 // Recreation of java.util.Random#next(bits)
 __device__ uint32_t next(uint64_t* seed, uint32_t bits) {
     // Calculate next seed

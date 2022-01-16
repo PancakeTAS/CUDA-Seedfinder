@@ -3,7 +3,7 @@
 int main() {
     cond conditions[1];
     
-    // Create a testing condition, that searches for a bastion remnant at spawn within a 4 chunk radius towards pos pos
+    // Create a testing condition, that searches for a pillager outpost at spawn within a 4 chunk radius towards pos pos
     cond condition1;
     condition1.regionX = 0;
     condition1.regionZ = 0;
@@ -12,10 +12,10 @@ int main() {
     condition1.chunkXMax = 4;
     condition1.chunkZMax = 4;
     condition1.relativeTo = 0;
-    condition1.offset = 23;
-    condition1.spacing = 27;
-    condition1.salt = 30084232L;
-    condition1.edge_case = 1;
+    condition1.offset = 24;
+    condition1.spacing = 32;
+    condition1.salt = 165745296L;
+    condition1.edge_case = 2;
 
     conditions[0] = condition1;
 
