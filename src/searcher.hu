@@ -20,6 +20,7 @@ typedef struct Condition {
     uint32_t offset;
     uint32_t spacing;
     uint64_t salt;
+    uint8_t edge_case; // Edge case for finding a structure. 0 is disabled.
 } cond;
 
 __global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t structureSeedOffset);
