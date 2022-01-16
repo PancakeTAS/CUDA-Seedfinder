@@ -1,0 +1,8 @@
+# Ignore VSCode project dir
+.vscode
+
+# Ignore Object Files
+*.obj
+*.exe
+*.exp
+*.lib

@@ -1,0 +1,27 @@
+#ifndef SEARCHER_H_
+#define SEARCHER_H_
+
+#include <stdint.h>
+#include <stdio.h>
+#include "structure.hu"
+
+// A Condition contains all data required for a search/match.
+typedef struct Condition {
+    // Region of the structure check
+    uint32_t regionX;
+    uint32_t regionZ;
+    // Positioning of the structure
+    uint32_t chunkXMin;
+    uint32_t chunkZMin;
+    uint32_t chunkXMax;
+    uint32_t chunkZMax;
+    uint32_t relativeTo; // Adds the center of another structure to the coordinates of this one. 0 is disabled.
+    // Structure information
+    uint32_t offset;
+    uint32_t spacing;
+    uint64_t salt;
+} cond;
+
+__global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t structureSeedOffset);
+
+#endif

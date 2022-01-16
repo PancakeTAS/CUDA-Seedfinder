@@ -1,0 +1,15 @@
+#ifndef JAVARAND_H_
+#define JAVARAND_H_
+
+#include <stdint.h>
+
+// Scrambles the seed given
+__device__ void scramble(uint64_t* seed, uint64_t new_seed);
+
+// Generates a given amount of bits with a random seed
+__device__ uint32_t next(uint64_t* seed, uint32_t bits);
+
+// Generates a new integer with a given bound with a random seed
+__device__ uint32_t nextInt(uint64_t* seed, uint32_t bound);
+
+#endif
