@@ -38,6 +38,13 @@ __device__ uint64_t locate_structure(uint64_t structureSeed, uint32_t position, 
             if (nextInt(&seed, 5) >= 2)
                 return 0xFFFFFFFFFFFFFFFF;
             break;
+        // Third Edge Case: 
+        //          Triangular Structures (EndCity, Mansion, Monument) are calculated differently
+        case 4:
+            // Do a bit of trickery with the random number generator, because it should generate 2 numbers for x and z in order.
+            x += -x_offset + (x_offset + z_offset) / 2;
+            z += -z_offset + (nextInt(&seed, offset) + nextInt(&seed, offset)) / 2;
+            break;
         default:
             break;
     }

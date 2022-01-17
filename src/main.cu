@@ -12,10 +12,10 @@ int main() {
     condition1.chunkXMax = 4;
     condition1.chunkZMax = 4;
     condition1.relativeTo = 0;
-    condition1.offset = 23L;
-    condition1.spacing = 27L;
-    condition1.salt = 30084232L;
-    condition1.edge_case = 3;
+    condition1.offset = 27L;
+    condition1.spacing = 32L;
+    condition1.salt = 10387313L;
+    condition1.edge_case = 4;
 
     conditions[0] = condition1;
 
@@ -25,7 +25,7 @@ int main() {
     cudaMemcpy(gpu_conditions, &conditions, 1 * sizeof(cond), cudaMemcpyHostToDevice);
 
     // Start the search and sync up
-    startSearch<<<1024,1024>>>(gpu_conditions, 1, 0);
+    startSearch<<<1024*1024,1024>>>(gpu_conditions, 1, 0);
     cudaDeviceSynchronize();
 
     // Free the conditions array from the gpu
