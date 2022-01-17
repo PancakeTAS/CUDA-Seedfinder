@@ -1,7 +1,7 @@
 #include "searcher.hu"
 
 int main() {
-    cond conditions[1];
+    cond conditions[2];
     
     // Create a testing condition, that searches for a pillager outpost at spawn within a 4 chunk radius towards pos pos
     cond condition1;
@@ -17,15 +17,31 @@ int main() {
     condition1.salt = 10387313L;
     condition1.edge_case = 4;
 
+    // Create a second testing condition, that searches for a ruined portal at spawn within a 4 chunk radius towards pos pos
+    cond condition2;
+    condition2.regionX = 0;
+    condition2.regionZ = 0;
+    condition2.chunkXMin = 0;
+    condition2.chunkZMin = 0;
+    condition2.chunkXMax = 4;
+    condition2.chunkZMax = 4;
+    condition2.relativeTo = 0;
+    condition2.offset = 25L;
+    condition2.spacing = 40L;
+    condition2.salt = 34222645L;
+    condition2.edge_case = 0;
+
+
     conditions[0] = condition1;
+    conditions[1] = condition2;
 
     // Load the conditions to the GPU
     cond* gpu_conditions;
-    cudaMalloc(&gpu_conditions, 1 * sizeof(cond));
-    cudaMemcpy(gpu_conditions, &conditions, 1 * sizeof(cond), cudaMemcpyHostToDevice);
+    cudaMalloc(&gpu_conditions, 2 * sizeof(cond));
+    cudaMemcpy(gpu_conditions, &conditions, 2 * sizeof(cond), cudaMemcpyHostToDevice);
 
     // Start the search and sync up
-    startSearch<<<1024*1024,1024>>>(gpu_conditions, 1, 0);
+    startSearch<<<1024*1024,1024>>>(gpu_conditions, 2, 0);
     cudaDeviceSynchronize();
 
     // Free the conditions array from the gpu

@@ -8,28 +8,41 @@ __global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t s
     uint64_t index = ((structureSeedOffset + threadIdx.x) + (blockIdx.x * 1024));
     uint64_t structureSeed = index << 16;
 
-    // Load condition data
-    uint32_t regionX = condition[0].regionX;
-    uint32_t regionZ = condition[0].regionZ;
-    uint32_t spacing = condition[0].spacing;
+    size_t i;
+    uint32_t regionX;
+    uint32_t regionZ;
+    uint32_t spacing;
+    uint64_t xz;
+    uint32_t x;
+    uint32_t z;
+    // Check all conditions
+    for (i = 0; i < conditioncount; i++) {
+        // Load condition data
+        regionX = condition[i].regionX;
+        regionZ = condition[i].regionZ;
+        spacing = condition[i].spacing;
 
-    // Find the first structure on that seed
-    uint64_t xz = locate_structure(structureSeed,
-        // Position Seed Part
-        regionX * A + regionZ * B, 
-        // Spaced X and Z Region Coordinates
-        regionX * spacing, 
-        regionZ * spacing, 
-        // Salt and Offset
-        condition[0].offset, condition[0].salt,
-        // Edge Case
-        condition[0].edge_case
-    );
-    if (xz == 0xFFFFFFFFFFFFFFFF) {
-        return;
+        // Find the first structure on that seed
+        xz = locate_structure(structureSeed,
+            // Position Seed Part
+            regionX * A + regionZ * B, 
+            // Spaced X and Z Region Coordinates
+            regionX * spacing, 
+            regionZ * spacing, 
+            // Salt and Offset
+            condition[i].offset, condition[i].salt,
+            // Edge Case
+            condition[i].edge_case
+        );
+        if (xz == 0xFFFFFFFFFFFFFFFF) // Return if the structure wasn't found
+            return;
+        x = xz >> 32;
+        z = xz;
+
+        // Check positioning
+        if (x < condition[i].chunkXMin || x > condition[i].chunkXMax || z < condition[i].chunkZMin || z > condition[i].chunkZMax)
+            return;
     }
-    uint32_t x = xz >> 32;
-    uint32_t z = xz;
 
-    printf("On seed %llu, the first condition was met at %d, %d.\n", structureSeed, x, z);
+    printf("Found structure seed: %llu\n", structureSeed);
 }
