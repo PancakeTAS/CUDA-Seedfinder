@@ -5,8 +5,8 @@
 
 __global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t structureSeedOffset) {
     // Figure out what seed to check
-    uint64_t index = ((structureSeedOffset + threadIdx.x) + (blockIdx.x * 1024));
-    uint64_t structureSeed = index << 16;
+    uint64_t index = ((structureSeedOffset + threadIdx.x) + (((uint64_t) blockIdx.x) * 1024));
+    uint64_t structureSeed = index;
 
     size_t i;
     uint32_t regionX;

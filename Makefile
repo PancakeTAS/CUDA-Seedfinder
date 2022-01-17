@@ -3,10 +3,10 @@ SOURCES = $(wildcard src/*.cu)
 OBJECTS = $(SOURCES:.cu=.obj)
 
 %.obj: %.cu
-	nvcc.exe -dc $< -o $@
+	nvcc.exe -dc $< -o $@ -O3 
 
 build: $(OBJECTS)
-	nvcc.exe $^ -o main
+	nvcc.exe $^ -o main -O3
 
 run: build
 	.\main.exe
