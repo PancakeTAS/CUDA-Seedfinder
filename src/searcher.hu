@@ -15,7 +15,7 @@ typedef struct Condition {
     uint32_t chunkZMin;
     uint32_t chunkXMax;
     uint32_t chunkZMax;
-    uint32_t relativeTo; // Adds the center of another structure to the coordinates of this one. 0 is disabled.
+    bool relativeTo; // Makes the positioning relative to the previous search. Min values are sign swapped
     // Structure information
     uint32_t offset;
     uint32_t spacing;

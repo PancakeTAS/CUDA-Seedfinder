@@ -15,12 +15,20 @@ __global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t s
     uint64_t xz;
     uint32_t x;
     uint32_t z;
+    uint32_t chunkXMin;
+    uint32_t chunkZMin;
+    uint32_t chunkXMax;
+    uint32_t chunkZMax;
     // Check all conditions
     for (i = 0; i < conditioncount; i++) {
         // Load condition data
         regionX = condition[i].regionX;
         regionZ = condition[i].regionZ;
         spacing = condition[i].spacing;
+        chunkXMin = condition[i].chunkXMin;
+        chunkZMin = condition[i].chunkZMin;
+        chunkXMax = condition[i].chunkXMax;
+        chunkZMax = condition[i].chunkZMax;
 
         // Find the first structure on that seed
         xz = locate_structure(structureSeed,
@@ -36,13 +44,23 @@ __global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t s
         );
         if (xz == 0xFFFFFFFFFFFFFFFF) // Return if the structure wasn't found
             return;
+
+        // Relative Positioning
+        if (condition[i].relativeTo) {
+            chunkXMin = x - chunkXMin;
+            chunkZMin = z - chunkZMin;
+            chunkXMin *= !(chunkXMin > 32);
+            chunkZMin *= !(chunkZMin > 32);
+            chunkXMax += x;
+            chunkZMax += z;
+        }
+
         x = xz >> 32;
         z = xz;
 
         // Check positioning
-        if (x < condition[i].chunkXMin || x > condition[i].chunkXMax || z < condition[i].chunkZMin || z > condition[i].chunkZMax)
+        if (x < chunkXMin || x > chunkXMax || z < chunkZMin || z > chunkZMax)
             return;
     }
-
     printf("Found structure seed: %llu\n", structureSeed);
 }
