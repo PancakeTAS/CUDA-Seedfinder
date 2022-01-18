@@ -3,22 +3,22 @@
 #define A 341873128712L
 #define B 132897987541L
 
-__global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t structureSeedOffset) {
+__global__ void startSearch(cond* condition, uint32_t conditioncount, int64_t structureSeedOffset) {
     // Figure out what seed to check
-    uint64_t index = ((structureSeedOffset + threadIdx.x) + (((uint64_t) blockIdx.x) * 1024));
-    uint64_t structureSeed = index;
+    int64_t index = ((structureSeedOffset + threadIdx.x) + (((int64_t) blockIdx.x) * 1024));
+    int64_t structureSeed = (index << 16) + structureSeedOffset;
 
     size_t i;
-    uint32_t regionX;
-    uint32_t regionZ;
-    uint32_t spacing;
+    int32_t regionX;
+    int32_t regionZ;
+    int32_t spacing;
     uint64_t xz;
-    uint32_t x;
-    uint32_t z;
-    uint32_t chunkXMin;
-    uint32_t chunkZMin;
-    uint32_t chunkXMax;
-    uint32_t chunkZMax;
+    int32_t x;
+    int32_t z;
+    int32_t chunkXMin;
+    int32_t chunkZMin;
+    int32_t chunkXMax;
+    int32_t chunkZMax;
     // Check all conditions
     for (i = 0; i < conditioncount; i++) {
         // Load condition data

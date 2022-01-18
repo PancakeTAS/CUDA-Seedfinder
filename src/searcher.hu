@@ -8,21 +8,21 @@
 // A Condition contains all data required for a search/match.
 typedef struct Condition {
     // Region of the structure check
-    uint32_t regionX;
-    uint32_t regionZ;
+    int32_t regionX;
+    int32_t regionZ;
     // Positioning of the structure
-    uint32_t chunkXMin;
-    uint32_t chunkZMin;
-    uint32_t chunkXMax;
-    uint32_t chunkZMax;
+    int32_t chunkXMin;
+    int32_t chunkZMin;
+    int32_t chunkXMax;
+    int32_t chunkZMax;
     bool relativeTo; // Makes the positioning relative to the previous search. Min values are sign swapped
     // Structure information
-    uint32_t offset;
-    uint32_t spacing;
-    uint64_t salt;
+    int32_t offset;
+    int32_t spacing;
+    int64_t salt;
     uint8_t edge_case; // Edge case for finding a structure. 0 is disabled.
 } cond;
 
-__global__ void startSearch(cond* condition, uint32_t conditioncount, uint64_t structureSeedOffset);
+__global__ void startSearch(cond* condition, uint32_t conditioncount, int64_t structureSeedOffset);
 
 #endif
