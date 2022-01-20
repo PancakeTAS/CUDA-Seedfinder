@@ -15,6 +15,12 @@ __device__ void scrambleWeakSeed(int64_t* seed, int64_t worldseed, int32_t chunk
     *seed = ((sX ^ sZ << 4L) ^ worldseed) ^ MULTIPLIER;
 }
 
+// Updates the seed with a stronger hash of the world seed
+__device__ void scrambleCarverSeed(int64_t* seed, int64_t worldseed, int32_t chunkX, int32_t chunkZ) {
+    scramble(seed, *seed);
+    scramble(seed, (int64_t) chunkX * nextLong(seed) ^ (int64_t) chunkZ * nextLong(seed) ^ worldseed);
+}
+
 // Recreation of java.util.Random#next(bits)
 __device__ int32_t next(int64_t* seed, int32_t bits) {
     // Calculate next seed
@@ -35,4 +41,14 @@ __device__ int32_t nextInt(int64_t* seed, int32_t bound) {
     } while (bits - value + (bound - 1) < 0); // Rerun until value fits
     
     return value;
+}
+
+// Recreation of java.util.Random#nextLong()
+__device__ int64_t nextLong(int64_t* seed) {
+    return ((int64_t) next(seed, 32) << 32) + next(seed, 32);
+}
+
+// Recreation of java.util.Random#nextFloat
+__device__ float nextFloat(int64_t* seed) {
+    return next(seed, 24) / ((float) (1 << 24));
 }

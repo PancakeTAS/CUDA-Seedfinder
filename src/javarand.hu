@@ -2,6 +2,7 @@
 #define JAVARAND_H_
 
 #include <stdint.h>
+#include <stdio.h>
 
 // Scrambles the seed given
 __device__ void scramble(int64_t* seed, int64_t new_seed);
@@ -9,10 +10,19 @@ __device__ void scramble(int64_t* seed, int64_t new_seed);
 // Scrambles a new seed hashed from a position on a world
 __device__ void scrambleWeakSeed(int64_t* seed, int64_t worldseed, int32_t chunkX, int32_t chunkZ);
 
+// Scrambles a new seed strongly hashed from a position on a world
+__device__ void scrambleCarverSeed(int64_t* seed, int64_t worldseed, int32_t chunkX, int32_t chunkZ);
+
 // Generates a given amount of bits with a random seed
 __device__ int32_t next(int64_t* seed, int32_t bits);
 
-// Generates a new integer with a given bound with a random seed
+// Generates a new integer with a given bound and a random seed
 __device__ int32_t nextInt(int64_t* seed, int32_t bound);
+
+// Generates a new long with a random seed
+__device__ int64_t nextLong(int64_t* seed);
+
+// Generates a new float with a random seed
+__device__ float nextFloat(int64_t* seed);
 
 #endif

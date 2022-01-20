@@ -1,0 +1,10 @@
+#ifndef RUINEDPORTAL_H_
+#define RUINEDPORTAL_H_
+
+#include <stdint.h>
+#include "javarand.hu"
+
+// Generates ruined portals as far as needed
+__device__ bool generateRuinedPortal(int64_t structureSeed, int32_t x, int32_t z);
+
+#endif

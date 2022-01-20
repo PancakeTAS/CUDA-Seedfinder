@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "structure.hu"
+#include "ruinedportal.hu"
 
 __global__ void startSearch(int64_t structureSeedOffset);
 
