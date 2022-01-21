@@ -21,6 +21,12 @@ __device__ void scrambleCarverSeed(int64_t* seed, int64_t worldseed, int32_t chu
     scramble(seed, (int64_t) chunkX * nextLong(seed) ^ (int64_t) chunkZ * nextLong(seed) ^ worldseed);
 }
 
+// Updates the seed with a hash of a block position
+__device__ void scramblePositionSeed(int64_t* seed, int32_t x, int32_t y, int32_t z) {
+    int64_t i = ((int64_t) x * 3129871L) ^ ((int64_t) z * 116129781L) ^ y;
+    scramble(seed, (i * i * 42317861L + i * 11L) >> 16);
+}
+
 // Recreation of java.util.Random#next(bits)
 __device__ int32_t next(int64_t* seed, int32_t bits) {
     // Calculate next seed
@@ -41,6 +47,10 @@ __device__ int32_t nextInt(int64_t* seed, int32_t bound) {
     } while (bits - value + (bound - 1) < 0); // Rerun until value fits
     
     return value;
+}
+
+__device__ int32_t nextIntPower(int64_t* seed, int32_t bound) {
+    return (int32_t) ((bound * (int64_t) next(seed, 31)) >> 31);
 }
 
 // Recreation of java.util.Random#nextLong()

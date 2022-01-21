@@ -13,11 +13,17 @@ __device__ void scrambleWeakSeed(int64_t* seed, int64_t worldseed, int32_t chunk
 // Scrambles a new seed strongly hashed from a position on a world
 __device__ void scrambleCarverSeed(int64_t* seed, int64_t worldseed, int32_t chunkX, int32_t chunkZ);
 
+// Scramble a new seed hashed from a position
+__device__ void scramblePositionSeed(int64_t* seed, int32_t x, int32_t y, int32_t z);
+
 // Generates a given amount of bits with a random seed
 __device__ int32_t next(int64_t* seed, int32_t bits);
 
 // Generates a new integer with a given bound and a random seed
 __device__ int32_t nextInt(int64_t* seed, int32_t bound);
+
+// Generates a new integer with a given bound that is a power of 2 and a random seed
+__device__ int32_t nextIntPower(int64_t* seed, int32_t bound);
 
 // Generates a new long with a random seed
 __device__ int64_t nextLong(int64_t* seed);

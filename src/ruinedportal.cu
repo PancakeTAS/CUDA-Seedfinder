@@ -22,5 +22,28 @@ __device__ bool generateRuinedPortal(int64_t structureSeed, int32_t x, int32_t z
     if (nextInt(&seed, 10) != 5)
         return false;
 
+    // Check for non-rotated portals
+    if (nextIntPower(&seed, 4) != 0)
+        return false;
+
+    // Check for non-mirrored portals
+    if (nextFloat(&seed) >= 0.5)
+        return false;
+
+    // Check for crying obsidian
+    int y_pos_obsidian[] = {1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
+    int z_pos_obsidian[] = {1, 2, 3, 0, 4, 0, 4, 0, 4, 1, 3};
+    int y_pos, z_pos;
+
+    // Update position seed and loop through blocks
+    for (size_t i = 0; i < 11; i++) {
+        y_pos = y_pos_obsidian[i];
+        z_pos = z_pos_obsidian[i] + (z * 16);
+        scramblePositionSeed(&seed, 2, y_pos, z_pos);
+
+    }
+    
+    // 2, 3
+
     return true;
 }
