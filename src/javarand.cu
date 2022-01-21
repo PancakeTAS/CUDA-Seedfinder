@@ -17,7 +17,7 @@ __device__ void scrambleWeakSeed(int64_t* seed, int64_t worldseed, int32_t chunk
 
 // Updates the seed with a stronger hash of the world seed
 __device__ void scrambleCarverSeed(int64_t* seed, int64_t worldseed, int32_t chunkX, int32_t chunkZ) {
-    scramble(seed, *seed);
+    scramble(seed, worldseed);
     scramble(seed, (int64_t) chunkX * nextLong(seed) ^ (int64_t) chunkZ * nextLong(seed) ^ worldseed);
 }
 
