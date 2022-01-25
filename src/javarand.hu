@@ -12,6 +12,9 @@ __device__ void scrambleWeakSeed(int64_t* seed, int64_t worldseed, int32_t chunk
 // Generates a given amount of bits with a random seed
 __device__ int32_t next(int64_t* seed, int32_t bits);
 
+// Generates a new integer with a given bound that is a power of 2 and a random seed
+__device__ int32_t nextIntPower(int64_t* seed, int32_t bound);
+
 // Generates a new integer with a given bound with a random seed
 __device__ int32_t nextInt(int64_t* seed, int32_t bound);
 
