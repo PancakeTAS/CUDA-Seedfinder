@@ -1,5 +1,5 @@
 CC = nvcc
-SOURCES = $(wildcard src/*.cu)
+SOURCES = $(wildcard src/**/*.cu)  $(wildcard src/*.cu)
 OBJECTS = $(SOURCES:.cu=.obj)
 
 %.obj: %.cu

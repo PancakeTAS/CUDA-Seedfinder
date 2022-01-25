@@ -1,9 +1,9 @@
-#include "searcher.hu"
+#include "searcherss.hu"
 
 #define A 341873128712L
 #define B 132897987541L
 
-__global__ void startSearch(int64_t structureSeedOffset) {
+__global__ void search_structure(int64_t structureSeedOffset) {
     // Figure out what seed to check
     int64_t index = ((structureSeedOffset + threadIdx.x) + (((int64_t) blockIdx.x) * 1024));
     int64_t structureSeed = (index << 16) + structureSeedOffset;
@@ -39,10 +39,6 @@ __global__ void startSearch(int64_t structureSeedOffset) {
         return;
 
     if (z_fortress < -1)
-        return;
-    
-    // Check for a finishable ruined portal - note: this code will return as soon as something invalid is found and is not going to check for all infos
-    if (!generateRuinedPortal(structureSeed, x_ruinedportal, z_ruinedportal))
         return;
 
     printf("Found structure seed: %llu\n", structureSeed);

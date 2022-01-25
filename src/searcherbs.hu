@@ -1,0 +1,9 @@
+#ifndef SEARCHERBS_H_
+#define SEARCHERBS_H_
+
+#include <stdint.h>
+#include <stdio.h>
+
+__global__ void search_biome(int64_t seed);
+
+#endif

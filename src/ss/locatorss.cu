@@ -1,4 +1,4 @@
-#include "structure.hu"
+#include "locatorss.hu"
 #include <inttypes.h>
 
 __device__ uint64_t locate_structure(int64_t structureSeed, int64_t position, int32_t spacedRegionX, int32_t spacedRegionZ, int32_t offset, int64_t salt, uint8_t edge_case) {

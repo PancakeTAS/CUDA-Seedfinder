@@ -49,6 +49,7 @@ __device__ int32_t nextInt(int64_t* seed, int32_t bound) {
     return value;
 }
 
+// Recreation of java.util.Random#nextInt(bound)
 __device__ int32_t nextIntPower(int64_t* seed, int32_t bound) {
     return (int32_t) ((bound * (int64_t) next(seed, 31)) >> 31);
 }

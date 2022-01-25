@@ -1,8 +1,8 @@
-#ifndef FEATURE_H_
-#define FEATURE_H_
+#ifndef LOCATORSS_H_
+#define LOCATORSS_H_
 
 #include <stdint.h>
-#include "javarand.hu"
+#include "../util/javarand.hu"
 
 __device__ uint64_t locate_structure(int64_t structureSeed, int64_t position, int32_t spacedRegionX, int32_t spacedRegionZ, int32_t offset, int64_t salt, uint8_t edge_case);
 

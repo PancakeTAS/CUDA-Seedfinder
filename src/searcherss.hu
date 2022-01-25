@@ -1,0 +1,10 @@
+#ifndef SEARCHERSS_H_
+#define SEARCHERSS_H_
+
+#include <stdint.h>
+#include <stdio.h>
+#include "ss/locatorss.hu"
+
+__global__ void search_structure(int64_t structureSeedOffset);
+
+#endif
