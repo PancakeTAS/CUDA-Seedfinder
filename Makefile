@@ -1,15 +1,24 @@
+ifeq ($(OS),Windows_NT)
+CC = nvcc.exe
+OUT = main.exe
+DEL = del /Q /F /S *.obj $(OUT) *.exp *.lib
+else
 CC = nvcc
+OUT = main
+DEL = find . -regextype posix-egrep -regex ".*\.(obj|exp|lib)$$" -type f -delete; rm main
+endif
+
 SOURCES = $(wildcard src/*.cu)
 OBJECTS = $(SOURCES:.cu=.obj)
 
 %.obj: %.cu
-	nvcc.exe -dc $< -o $@ -O3 
+	$(CC) -dc $< -o $@
 
 build: $(OBJECTS)
-	nvcc.exe $^ -o main -O3
+	$(CC) $^ -o $(OUT)
 
 run: build
-	.\main.exe
+	./$(OUT)
 
 clean:
-	del /Q /F /S *.obj *.exe *.exp *.lib
+	$(DEL)
