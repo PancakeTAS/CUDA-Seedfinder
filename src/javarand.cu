@@ -40,3 +40,32 @@ __device__ int32_t nextInt(int64_t* seed, int32_t bound) {
 __device__ int32_t nextIntPower(int64_t* seed, int32_t bound) {
     return (int32_t) ((bound * (int64_t) next(seed, 31)) >> 31);
 }
+
+// Recreation of java.util.Random#nextDouble()
+__device__ double nextDouble(int64_t *seed) {
+    int64_t x = (int64_t) next(seed, 26);
+    x <<= 27;
+    x += next(seed, 27);
+    return (int64_t) x / (double) (1ULL << 53);
+}
+
+// Skips next bytes
+__device__ void skipNextN(int64_t *seed, int64_t n) {
+    int64_t m = 1;
+    int64_t a = 0;
+    int64_t im = 0x5deece66dLL;
+    int64_t ia = 0xb;
+    int64_t k;
+
+    for (k = n; k; k >>= 1) {
+        if (k & 1) {
+            m *= im;
+            a = im * a + ia;
+        }
+        ia = (im + 1) * ia;
+        im *= im;
+    }
+
+    *seed = *seed * m + a;
+    *seed &= 0xffffffffffffLL;
+}

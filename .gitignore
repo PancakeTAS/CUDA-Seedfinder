@@ -6,3 +6,6 @@
 *.exe
 *.exp
 *.lib
+
+# Ignore experiments
+experiments

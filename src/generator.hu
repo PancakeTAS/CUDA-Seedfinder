@@ -1,0 +1,9 @@
+#ifndef SEARCHER_H_
+#define SEARCHER_H_
+
+#include <stdio.h>
+#include "perlin.hu"
+
+__global__ void generateBiomes(int64_t structure_seed);
+
+#endif
