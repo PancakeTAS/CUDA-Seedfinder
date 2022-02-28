@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "javarand.hu"
+#include <stdio.h>
 
 // Perlin noise octave
 typedef struct PerlinNoise {
@@ -30,7 +31,7 @@ typedef struct NetherNoise {
 
 // Makes a nether biome layer for the structure seed
 __device__ void make_nether_layer(nether_noise *noise, int64_t structure_seed);
-// Samples a double perlin noise coordinate
-__device__ double sample_double_perlin(double_perlin_noise* noise, int32_t x, int32_t z);
+// Finds a nether biome at a given position
+__device__ int get_nether_biome(NetherNoise *noise, int x, int z);
 
 #endif
