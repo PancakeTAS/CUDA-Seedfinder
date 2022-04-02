@@ -104,8 +104,6 @@ __device__ double sample_perlin(perlin_noise *rnd, double d1, double d2, double 
     int b2 = rnd->d[b1]   + i3;
     int b3 = rnd->d[b1+1] + i3;
 
-    printf("%f, %f, %f, %d, %d\n", d1, d3, d3, a3, rnd->d[a3]);
-
     double l1 = indexedLerp(rnd->d[a2],   d1,   d2,   d3);
     double l2 = indexedLerp(rnd->d[b2],   d1-1, d2,   d3);
     double l3 = indexedLerp(rnd->d[a3],   d1,   d2-1, d3);
@@ -114,8 +112,6 @@ __device__ double sample_perlin(perlin_noise *rnd, double d1, double d2, double 
     double l6 = indexedLerp(rnd->d[b2+1], d1-1, d2,   d3-1);
     double l7 = indexedLerp(rnd->d[a3+1], d1,   d2-1, d3-1);
     double l8 = indexedLerp(rnd->d[b3+1], d1-1, d2-1, d3-1);
-
-    printf("%f, %f, %f, %f, %f, %f, %f, %f\n", l1, l2, l3, l4, l5, l6, l7, l8);
 
     l1 = lerp(t1, l1, l2);
     l3 = lerp(t1, l3, l4);
@@ -137,17 +133,13 @@ __device__ double sample_octave(octave_noise *noise, double x, double z) {
     double ax = maintain_precision(x * persist);
     double ay = maintain_precision(0);
     double az = maintain_precision(z * persist);
-    printf("%f, %f, %f\n", ax, ay, az);
     v += lacuna * sample_perlin(&noise->octave0, ax, ay, az);
-    printf("%f\n", v);
     persist *= 0.5;
     lacuna *= 2.0;
 
     ax = maintain_precision(x * persist);
     az = maintain_precision(z * persist);
-    printf("%f, %f, %f\n", ax, ay, az);
     v += lacuna * sample_perlin(&noise->octave1, ax, ay, az);
-    printf("%f\n", v);
 
     return v;
 }
@@ -170,9 +162,6 @@ __device__ int get_nether_biome(NetherNoise *noise, int x, int z) {
     float temp = sample_double_perlin(&noise->temperature, x, z);
     float humidity = sample_double_perlin(&noise->humidity, x, z);
 
-
-    printf("%f, %f\n", temp, humidity);
-
     int i, id = 0;
     float dmin = 0xfffffd00;
     float dmin2 = 0xfffffd00;
@@ -180,7 +169,6 @@ __device__ int get_nether_biome(NetherNoise *noise, int x, int z) {
         float dx = npoints[i][0] - temp;
         float dy = npoints[i][1] - humidity;
         float dsq = dx*dx + dy*dy + npoints[i][2];
-        printf("%f\n", dsq);
         if (dsq < dmin) {
             dmin2 = dmin;
             dmin = dsq;
