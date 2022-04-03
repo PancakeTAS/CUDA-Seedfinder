@@ -1,0 +1,19 @@
+#ifndef BIOMES_H_
+#define BIOMES_H_
+
+#include <stdint.h>
+#include "../math/perlin.hu"
+#include "../math/javarand.hu"
+
+// Nether noise
+typedef struct NetherNoise {
+    double_perlin_noise temperature;
+    double_perlin_noise humidity;
+} nether_noise;
+
+// Makes a nether biome layer for the structure seed
+__device__ void make_nether_layer(nether_noise *noise, int64_t structure_seed);
+// Finds a nether biome at a given position
+__device__ int get_nether_biome(NetherNoise *noise, int x, int z);
+
+#endif

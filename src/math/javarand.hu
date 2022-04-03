@@ -18,4 +18,10 @@ __device__ int32_t nextIntPower(int64_t* seed, int32_t bound);
 // Generates a new integer with a given bound with a random seed
 __device__ int32_t nextInt(int64_t* seed, int32_t bound);
 
+// Generates a new double with a random seed
+__device__ double nextDouble(int64_t *seed);
+
+// Skips n bytes on a random seed
+__device__ void skipNextN(int64_t *seed, int64_t n);
+
 #endif

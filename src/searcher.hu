@@ -3,26 +3,8 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include "structure.hu"
+#include "structures/structure.hu"
 
-// A Condition contains all data required for a search/match.
-typedef struct Condition {
-    // Region of the structure check
-    int32_t regionX;
-    int32_t regionZ;
-    // Positioning of the structure
-    int32_t chunkXMin;
-    int32_t chunkZMin;
-    int32_t chunkXMax;
-    int32_t chunkZMax;
-    bool relativeTo; // Makes the positioning relative to the previous search. Min values are sign swapped
-    // Structure information
-    int32_t offset;
-    int32_t spacing;
-    int64_t salt;
-    uint8_t edge_case; // Edge case for finding a structure. 0 is disabled.
-} cond;
-
-__global__ void startSearch(cond* condition, uint32_t conditioncount, int64_t structureSeedOffset);
+__global__ void startSearch(int64_t structureSeedOffset);
 
 #endif

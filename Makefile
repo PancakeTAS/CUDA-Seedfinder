@@ -8,7 +8,7 @@ OUT = main
 DEL = find . -regextype posix-egrep -regex ".*\.(obj|exp|lib)$$" -type f -delete; rm main
 endif
 
-SOURCES = $(wildcard src/*.cu)
+SOURCES = $(wildcard src/*.cu src/**/*.cu)
 OBJECTS = $(SOURCES:.cu=.obj)
 
 %.obj: %.cu
