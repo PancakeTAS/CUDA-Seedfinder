@@ -30,7 +30,12 @@ __global__ void startSearch(int64_t structureSeedOffset) {
     if (x > 1 && z > 1)
         return;
 
-    
+    // Find and check for the correct biome on the seed
+    nether_noise noise;
+    make_nether_layer(&noise, structureSeed);
+    int i = get_nether_biome(&noise, 0, 0);
+    if (i != 1)
+        return;
 
     printf("Found structure seed: %llu\n", structureSeed);
 }

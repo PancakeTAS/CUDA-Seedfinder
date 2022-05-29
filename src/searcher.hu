@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "structures/structure.hu"
+#include "biomes/biomes.hu"
 
 __global__ void startSearch(int64_t structureSeedOffset);
 

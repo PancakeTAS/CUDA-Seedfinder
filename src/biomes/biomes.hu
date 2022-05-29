@@ -13,7 +13,7 @@ typedef struct NetherNoise {
 
 // Makes a nether biome layer for the structure seed
 __device__ void make_nether_layer(nether_noise *noise, int64_t structure_seed);
-// Finds a nether biome at a given position
+// Finds a nether biome at a given chunk position
 __device__ int get_nether_biome(NetherNoise *noise, int x, int z);
 
 #endif

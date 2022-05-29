@@ -28,12 +28,16 @@ __device__ void make_nether_layer(nether_noise *noise, int64_t structure_seed) {
 // Obtains the nether biome at a given position
 __device__ int get_nether_biome(NetherNoise *noise, int x, int z) {
     const float npoints[5][4] = {
-        { 0,    0,      0,              0       },
-        { 0,   -0.5,    0,              1     },
-        { 0.4,  0,      0,              2     },
-        { 0,    0.5,    0.375*0.375,    3     },
-        {-0.5,  0,      0.175*0.175,    4     },
+        { 0,    0,      0,              0       }, // Nether Wastes
+        { 0,   -0.5,    0,              1     },   // Soul Sand Valley
+        { 0.4,  0,      0,              2     },   // Crimson Forest
+        { 0,    0.5,    0.375*0.375,    3     },   // Warped Forest
+        {-0.5,  0,      0.175*0.175,    4     },   // Basalt Delta
     };
+
+    // Convert chunk pos into 1:16 filter
+    x *= 4;
+    z *= 4;
 
     float temp = sample_double_perlin(&noise->temperature, x, z);
     float humidity = sample_double_perlin(&noise->humidity, x, z);
