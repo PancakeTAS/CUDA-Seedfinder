@@ -1,0 +1,12 @@
+#ifndef IMAGERY_H_
+#define IMAGERY_H_
+
+#include <stdint.h>
+#include <stdio.h>
+#include "structures/structure.hu"
+#include "biomes/biomes.hu"
+
+__global__ void fill(nether_noise* noise, int64_t size, unsigned char* out);
+__global__ void make(nether_noise* noise, int64_t seed);
+
+#endif
