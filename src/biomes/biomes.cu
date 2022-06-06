@@ -26,7 +26,7 @@ __device__ void make_nether_layer(nether_noise *noise, int64_t structure_seed) {
 }
 
 // Obtains the nether biome at a given position
-__device__ int get_nether_biome(NetherNoise *noise, int x, int z) {
+__device__ int get_nether_biome(NetherNoise *noise, int32_t x, int32_t z) {
     const float npoints[5][4] = {
         { 0,    0,      0,              0       }, // Nether Wastes
         { 0,   -0.5,    0,              1     },   // Soul Sand Valley
@@ -58,6 +58,6 @@ __device__ int get_nether_biome(NetherNoise *noise, int x, int z) {
         }
     }
 
-    id = (int) npoints[id][3];
+    id = (int32_t) npoints[id][3];
     return id;
 }
