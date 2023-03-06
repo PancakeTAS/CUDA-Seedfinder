@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include "structures/structure.hu"
 #include "biomes/biomes.hu"
+#include "math/perlin.hu"
+#include "math/javarand.hu"
 
 __global__ void startSearch(int64_t structureSeedOffset);
 

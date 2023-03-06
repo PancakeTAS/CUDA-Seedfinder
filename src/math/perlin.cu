@@ -37,6 +37,36 @@ __device__ void make_octave(int64_t* seed, perlin_noise* noise) {
     }
 }
 
+__device__ void make_octave(int64_t* seed, octave_noise* noise, perlin_noise* octaves, int omin, int len) {
+    int i;
+    int end = omin+len-1;
+    double persist = 1.0 / ((1LL << len) - 1.0);
+    double lacuna = pow(2.0, end);
+
+    if (end == 0) {
+        make_octave(seed, &octaves[0]);
+        octaves[0].amplitude = persist;
+        octaves[0].lacunarity = lacuna;
+        persist *= 2.0;
+        lacuna *= 0.5;
+        i = 1;
+    } else {
+        skipNextN(seed, -end*262);
+        i = 0;
+    }
+
+    for (; i < len; i++) {
+        make_octave(seed, &octaves[i]);
+        octaves[i].amplitude = persist;
+        octaves[i].lacunarity = lacuna;
+        persist *= 2.0;
+        lacuna *= 0.5;
+    }
+
+    noise->octaves = octaves;
+    noise->octcnt = len;
+}
+
 __device__ double maintain_precision(double x) {
     return x - floor(x / 33554432.0 + 0.5) * 33554432.0;
 }
@@ -55,7 +85,7 @@ __device__ double indexedLerp(int idx, double d1, double d2, double d3) {
 }
 
 // Samples a 3D point of a given noise with y 0
-__device__ double sample_perlin(perlin_noise *rnd, double d1, double d2, double d3) {
+__device__ double sample_perlin(perlin_noise *rnd, double d1, double d2, double d3, double yamp, double ymin) {
     d1 += rnd->a;
     d2 += rnd->b;
     d3 += rnd->c;
@@ -68,6 +98,11 @@ __device__ double sample_perlin(perlin_noise *rnd, double d1, double d2, double 
     double t1 = d1*d1*d1 * (d1 * (d1*6.0-15.0) + 10.0);
     double t2 = d2*d2*d2 * (d2 * (d2*6.0-15.0) + 10.0);
     double t3 = d3*d3*d3 * (d3 * (d3*6.0-15.0) + 10.0);
+
+    if (yamp) {
+        double yclamp = ymin < d2 ? ymin : d2;
+        d2 -= floor(yclamp / yamp) * yamp;
+    }
 
     i1 &= 0xff;
     i2 &= 0xff;
@@ -109,13 +144,13 @@ __device__ double sample_octave(octave_noise *noise, double x, double z) {
     double ax = maintain_precision(x * persist);
     double ay = maintain_precision(0);
     double az = maintain_precision(z * persist);
-    v += lacuna * sample_perlin(&noise->octave0, ax, ay, az);
+    v += lacuna * sample_perlin(&noise->octaves[0], ax, ay, az, 0, 0);
     persist *= 0.5;
     lacuna *= 2.0;
 
     ax = maintain_precision(x * persist);
     az = maintain_precision(z * persist);
-    v += lacuna * sample_perlin(&noise->octave1, ax, ay, az);
+    v += lacuna * sample_perlin(&noise->octaves[1], ax, ay, az, 0, 0);
 
     return v;
 }

@@ -8,12 +8,14 @@
 typedef struct PerlinNoise {
     int d[512];
     double a, b, c;
+    double amplitude;
+    double lacunarity;
 } perlin_noise;
 
 // Two octave perlin noise
 typedef struct OctaveNoise {
-    perlin_noise octave0;
-    perlin_noise octave1;
+    int octcnt;
+    perlin_noise* octaves;
 } octave_noise;
 
 // Double two octave perlin noise
@@ -22,10 +24,30 @@ typedef struct DoublePerlinNoise {
     octave_noise octB;
 } double_perlin_noise;
 
+// Surface noise
+typedef struct SurfaceNoise {
+    double xzScale, yScale;
+    double xzFactor, yFactor;
+    octave_noise octmin;
+    octave_noise octmax;
+    octave_noise octmain;
+    octave_noise octsurf;
+    octave_noise octdepth;
+    perlin_noise oct[16+16+8+4+16];
+} surface_noise;
 
 // Makes an octave out of a seed
 __device__ void make_octave(int64_t* seed, perlin_noise* noise);
+// Makes more octaves out of a seed
+__device__ void make_octave(int64_t* seed, octave_noise* noise, perlin_noise* octaves, int ominm, int len);
 // Samples a 3D point of a given double perlin layer with y 0
 __device__ double sample_double_perlin(double_perlin_noise* noise, int32_t x, int32_t z);
+// Samples a 3D point of perlin
+__device__ double sample_perlin(perlin_noise *rnd, double d1, double d2, double d3, double yamp, double ymin);
+
+// Math functions
+__device__ double lerp(double part, double from, double to);
+__device__ double indexedLerp(int idx, double d1, double d2, double d3);
+__device__ double maintain_precision(double x);
 
 #endif
